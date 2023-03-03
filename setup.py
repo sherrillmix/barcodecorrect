@@ -28,7 +28,6 @@ setup(
     url='http://github.com/sherrillmix/cellsplit', #doesn't exist
     author='Scott Sherrill-Mix',
     author_email='shescott@upenn.edu',
-    license='GPL 3',
     packages=find_packages(),
     zip_safe=True,
     install_requires=[],
@@ -40,7 +39,6 @@ setup(
     classifiers=[
         "Topic :: Scientific/Engineering :: Bio-Informatics",
         'Intended Audience :: Science/Research',
-    ],
-    package_data={'cellsplit':['barcodes/*.txt*']}, #TODOD is this right?
+    ]
     #,long_description=open('README.rst').read()
 )
