@@ -98,17 +98,13 @@ def correct_bc_error(bc_confidence_threshold, seq, qual, wl_dist):
     return None
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="A function to read")
+    parser = argparse.ArgumentParser(description="A function to read in a fastq file and use 10x algorithm to correct barcodes based on abundance of barcodes differing by a single base and quality scores")
     parser.add_argument('fastqFile', help='a fastq file (potentially gzipped) containing the sequence reads containing barcodes to be checked',type=helper.checkFile)
     parser.add_argument('-b','--barcodeCounts', help='a headerless csv file giving barcode,count in each row',type=helper.checkFile,required=True)
     parser.add_argument("-s","--start", help="Start position of barcode in reads (1-based)", default=1,type=int)
     parser.add_argument("-e","--end", help="End position of barcode in reads (1-based)", default=16,type=int)
     parser.add_argument("-t","--barcode_confidence_threshold", help='Replace the observed barcode with the whitelist barcode with the highest posterior probability that exceeds this value', default=.975,type=float)
     parser.add_argument("-d","--dots", help="output dot to stderr every X reads. Input a negative number to suppress output (default:-1)", default=-1,type=int)
-
-    #parser.add_argument('-o','--outputPath', help='a string giving the desired output directory',type=helper.checkDir,default='.')
-    #parser.add_argument('-a','--append', help='if set then append to already existing output files',action='store_true')
-
     args=parser.parse_args(argv)
 
     barcode_counts={xx[0]:int(xx[1]) for xx in helper.readSimpleCsv(args.barcodeCounts)}

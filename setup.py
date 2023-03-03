@@ -22,10 +22,10 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 setup(
-    name='cellsplit',
+    name='barcodecorrect',
     version='0.0.1',
     description='Split fastq from cellranger',
-    url='http://github.com/sherrillmix/cellsplit', #doesn't exist
+    url='http://github.com/sherrillmix/barcodecorrect',
     author='Scott Sherrill-Mix',
     author_email='shescott@upenn.edu',
     packages=find_packages(),
@@ -34,7 +34,7 @@ setup(
     tests_require=['pytest >=2.8'],
     cmdclass = {'test': PyTest},
     entry_points={ 'console_scripts': [
-        'cellsplit = cellsplit.cellsplit:main',
+        'barcodecorrect = barcodecorrect.barcodecorrect:main',
         ] },
     classifiers=[
         "Topic :: Scientific/Engineering :: Bio-Informatics",
