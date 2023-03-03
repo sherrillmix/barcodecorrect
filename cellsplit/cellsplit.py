@@ -13,6 +13,7 @@ class barcodeFastqIter:
         self.nMatch = 0
         self.nCorrected = 0
         self.nBad = 0
+        self.nTotal = 0
         self.fastqFiles=fastqFiles
         self.start=start
         self.end=end
@@ -37,6 +38,7 @@ class barcodeFastqIter:
         for currentReads in zip(*self.reads):
             barcode=currentReads[0][1][(self.start-1):(self.end)]
             barcodeQual=currentReads[0][2][(self.start-1):(self.end)]
+            self.nTotal+=1
             if barcode in self.barcodeDist:
                 self.nMatch+=1
                 return (barcode,barcode,currentReads)
@@ -47,6 +49,7 @@ class barcodeFastqIter:
                     return(corrected,barcode,currentReads)
                 else:
                     self.nBad+=1
+                    return(None,barcode,currentReads)
         raise StopIteration()
 
 
@@ -96,7 +99,7 @@ def correct_bc_error(bc_confidence_threshold, seq, qual, wl_dist):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="A function to read")
-    parser.add_argument('fastqFiles', help='a fastq file(s) (potentially gzipped) containing the sequence reads to be split. Barcodes are pulled from reads in the first file. Read pairs should be synchronized between files',type=helper.checkFile,nargs='+')
+    parser.add_argument('fastqFile', help='a fastq file (potentially gzipped) containing the sequence reads containing barcodes to be checked',type=helper.checkFile)
     parser.add_argument('-b','--barcodeCounts', help='a headerless csv file giving barcode,count in each row',type=helper.checkFile,required=True)
     parser.add_argument("-s","--start", help="Start position of barcode in reads (1-based)", default=1,type=int)
     parser.add_argument("-e","--end", help="End position of barcode in reads (1-based)", default=16,type=int)
@@ -112,12 +115,11 @@ def main(argv=None):
     nBarcodes = sum(barcode_counts.values())
     barcode_dist = {xx:yy/nBarcodes for xx,yy in barcode_counts.items()}
 
-    with barcodeFastqIter(args.fastqFiles,barcode_dist,args.start,args.end,args.barcode_confidence_threshold) as fastqIter:
+    with barcodeFastqIter([args.fastqFile],barcode_dist,args.start,args.end,args.barcode_confidence_threshold) as fastqIter:
         for corrected,barcode,reads in fastqIter:
-            #output various fastqs (actually this is pretty wasteful, just output csv of barcodes)
-            #sys.stdout.write('%s,%d\n' % (barcode,count))
+            sys.stdout.write('%s,%s,%s\n' % (reads[0][0],barcode,corrected))
             if args.dots>0:
-                if (fastqIter.nMatch + fastqIter.nCorrected) % args.dots==0:
+                if (fastqIter.nTotal) % args.dots==0:
                     sys.stderr.write('.')
                     sys.stderr.flush()
     if args.dots>0:
