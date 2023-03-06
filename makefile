@@ -1,11 +1,10 @@
 .PHONY: install test
 
-#README.rst: cellsplit/*.py preREADME.rst setup.py makeReadme.py
-	#need a readme to install
-	#cp preREADME.rst README.rst
-	#make install
-	#python makeReadme.py
-	#make install
+README.rst: barcodecorrect//*.py preREADME.rst setup.py makeReadme.py
+	cp preREADME.rst README.rst
+	make install
+	python makeReadme.py
+	make install
 
 test:
 	python setup.py test
