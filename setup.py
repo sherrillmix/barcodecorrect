@@ -24,7 +24,7 @@ class PyTest(TestCommand):
 setup(
     name='barcodecorrect',
     version='0.0.1',
-    description='Split fastq from cellranger',
+    description='Split 10x fastqs into sample files after correcting barcodes',
     url='http://github.com/sherrillmix/barcodecorrect',
     author='Scott Sherrill-Mix',
     author_email='shescott@upenn.edu',
@@ -35,6 +35,7 @@ setup(
     cmdclass = {'test': PyTest},
     entry_points={ 'console_scripts': [
         'barcodecorrect = barcodecorrect.barcodecorrect:main',
+        'splitreads = barcodecorrect.splitreads:main',
         ] },
     classifiers=[
         "Topic :: Scientific/Engineering :: Bio-Informatics",
