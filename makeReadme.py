@@ -1,9 +1,9 @@
 import pkg_resources
 import subprocess
-import dnapy
+import barcodecorrect
 import re
 
-entries=pkg_resources.get_entry_map('dnapy',None)['console_scripts'].keys()
+entries=pkg_resources.get_entry_map('barcodecorrect',None)['console_scripts'].keys()
 
 helps=[subprocess.check_output(x+' --help;exit 0',stderr=subprocess.STDOUT,shell=True) for x in entries]
 print(entries)
