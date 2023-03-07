@@ -50,17 +50,19 @@ class barcodeFastqIter:
         for currentReadsBarcode in zip(*self.reads,self.correctedBarcodes):
             name,old,correct=currentReadsBarcode[-1]
             currentReads=currentReadsBarcode[:-1]
-            if correct in self.barcodeSampleDict:
-                baseName=name.split(' ')[0]
-                if any([xx[0].split(' ')[0]!=baseName for xx in currentReads]): #necessary?
-                    raise KeyError("Names desynchronized between files and barcode assignments")
-                self.nAssigned+=1
-                self.assignCounts[correct]+=1
-                #add corrected barcode to read name?
-                return (currentReads,self.barcodeSampleDict[correct],correct)
-            else:
-                if correct is None: self.nBadBarcode+=1
-                else: self.nUnassigned+=1
+            if correct is None or correct=='None':
+                self.nBadBarcode+=1
+            else: 
+                if correct in self.barcodeSampleDict:
+                    baseName=name.split(' ')[0]
+                    if any([xx[0].split(' ')[0]!=baseName for xx in currentReads]): #necessary?
+                        raise KeyError("Names desynchronized between files and barcode assignments")
+                    self.nAssigned+=1
+                    self.assignCounts[correct]+=1
+                    #add corrected barcode to read name?
+                    return (currentReads,self.barcodeSampleDict[correct],correct)
+                else:
+                    self.nUnassigned+=1
         raise StopIteration()
 
 def main(argv=None):
