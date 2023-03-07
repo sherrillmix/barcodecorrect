@@ -30,6 +30,7 @@ class barcodeFastqIter:
     def __init__(self,fastqFiles,correctedBarcodeFile,barcodeSampleDict):
         self.nAssigned = 0
         self.nUnassigned = 0
+        self.nBadBarcode = 0
         self.fastqFiles=fastqFiles
         self.fastqHandles=[helper.openNormalOrGz(x) for x in self.fastqFiles]
         self.correctedBarcodeFile=correctedBarcodeFile
@@ -58,7 +59,8 @@ class barcodeFastqIter:
                 #add corrected barcode to read name?
                 return (currentReads,self.barcodeSampleDict[correct],correct)
             else:
-                self.nUnassigned+=1
+                if correct is none: self.nBadBarcode+=1
+                else: self.nUnassigned+=1
         raise StopIteration()
 
 def main(argv=None):
@@ -90,7 +92,7 @@ def main(argv=None):
                     sys.stderr.write('.')
                     sys.stderr.flush()
     if args.dots>0:
-        sys.stderr.write("\nAssigned reads: "+str(fastqIter.nAssigned)+" Unassigned reads: "+str(fastqIter.nUnassigned)+"\n")
+        sys.stderr.write("\nAssigned reads: "+str(fastqIter.nAssigned)+" Unassigned reads: "+str(fastqIter.nUnassigned)+" Bad barcode reads: "+str(fastqIter.nBadBarcode)+"\n")
     for outFile in outFiles.values(): helper.closeFiles(outFile)
 
 if __name__ == '__main__':
