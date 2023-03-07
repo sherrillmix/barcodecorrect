@@ -59,7 +59,7 @@ class barcodeFastqIter:
                 #add corrected barcode to read name?
                 return (currentReads,self.barcodeSampleDict[correct],correct)
             else:
-                if correct is none: self.nBadBarcode+=1
+                if correct is None: self.nBadBarcode+=1
                 else: self.nUnassigned+=1
         raise StopIteration()
 
