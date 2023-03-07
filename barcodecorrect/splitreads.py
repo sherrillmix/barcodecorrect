@@ -91,7 +91,7 @@ def main(argv=None):
                     sys.stderr.flush()
     if args.dots>0:
         sys.stderr.write("\nAssigned reads: "+str(fastqIter.nAssigned)+" Unassigned reads: "+str(fastqIter.nUnassigned)+"\n")
-    for outFile in outFiles: helper.closeFiles(outFile)
+    for outFile in outFiles.values(): helper.closeFiles(outFile)
 
 if __name__ == '__main__':
     main()
