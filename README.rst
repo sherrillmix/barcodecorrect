@@ -61,6 +61,30 @@ barcodecorrect
     -d DOTS, --dots DOTS  output dot to stderr every X reads. Input a negative
                           number to suppress output (default:-1)
   
+checkbarcodes
+~~~~
+
+::
+  
+  usage: checkbarcodes [-h] [-q] barcodes targetBarcodes
+  
+  A function to read in two sets of barcodes and validate that all barcodes in
+  the first set appear in second set or are 1 character from a barcode in the
+  first set. Output one row for each barcode with three columns giving the
+  original barcode, the closest assigned target (or targets separated by
+  semicolon) and the distance to closest target barcode (9999 for unassigned
+  barcodes) to standard out
+  
+  positional arguments:
+    barcodes        a headerless csv file (potentially gzipped) where the first
+                    column contains barcodes to check
+    targetBarcodes  a headerless csv file (potentially gzipped) where the first
+                    column contains target barcodes to compare to
+  
+  optional arguments:
+    -h, --help      show this help message and exit
+    -q, --quiet     if set then do not output final counts to standard error
+  
 splitreads
 ~~~~
 
@@ -100,6 +124,11 @@ splitreads
 
 Changelog
 ---------
+0.0.2 (2023-03-21)
+
+* Add `checkbarcodes` funtion
+
+
 0.0.1 (2023-03-06)
 
 * Initial release

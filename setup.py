@@ -23,7 +23,7 @@ class PyTest(TestCommand):
 
 setup(
     name='barcodecorrect',
-    version='0.0.1',
+    version='0.0.2',
     description='Split 10x fastqs into sample files after correcting barcodes',
     url='http://github.com/sherrillmix/barcodecorrect',
     author='Scott Sherrill-Mix',
@@ -36,6 +36,7 @@ setup(
     entry_points={ 'console_scripts': [
         'barcodecorrect = barcodecorrect.barcodecorrect:main',
         'splitreads = barcodecorrect.splitreads:main',
+        'checkbarcodes = barcodecorrect.checkbarcodes:main',
         ] },
     classifiers=[
         "Topic :: Scientific/Engineering :: Bio-Informatics",
