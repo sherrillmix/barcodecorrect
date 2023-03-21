@@ -42,5 +42,5 @@ setup(
         "Topic :: Scientific/Engineering :: Bio-Informatics",
         'Intended Audience :: Science/Research',
     ]
-    #,long_description=open('README.rst').read()
+    ,long_description=open('README.rst').read()
 )
